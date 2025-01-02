@@ -66,3 +66,21 @@
 
 - 단순 private 메소드로의 추출을 기대하는게 아니라고 강조되었으면 좋겠습니다. 해당 코드를 더 잘 수행할 것 같은 객체에게 위임하거나 객체를 만들어서 메소드를 분리해야하는데, private 메소드를 먼저
   떠올리면 구조적인 고민을 할 기회가 없어지기 때문입니다.
+
+## Lv 4. N+1 문제 개선하기
+
+- `TodoController`와 `TodoService`를 통해 `Todo` 관련 데이터를 처리합니다. (github 코드 기준)
+- 여기서 N+1 문제가 발생할 수 있는 시나리오는 `getTodos` 메서드에서 모든 Todo를 조회할 때, 각 Todo와 연관된 데이터를 개별적으로 가져오는 경우입니다.
+- 이를 해결하기 위해 `fetch join`과 `EntityGraph`를 활용할 수 있습니다.
+- 요구사항:
+    - `fetch join`을 사용한 N+1 문제 해결
+        - `TodoRepository`에서 JPQL을 작성하여 `fetch join`을 사용합니다.
+    - `@EntityGraph`를 사용한 N+1 문제 해결
+        - Spring Data JPA에서 `@EntityGraph`를 활용하면 `fetch join`을 선언적으로 사용할 수 있습니다.
+- 선택 기준 (고민해보시고, 적용해주세요!)
+    - **`fetch join`**
+        - 복잡한 쿼리에서 더 유연하게 동작.
+        - 필요에 따라 추가 조건을 명시할 수 있음.
+    - **`@EntityGraph`**
+        - 선언적으로 간단하게 N+1 문제를 해결할 수 있음.
+        - 간단한 연관 관계에서 유리.

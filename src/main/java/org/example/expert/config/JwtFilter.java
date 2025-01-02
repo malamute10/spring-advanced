@@ -49,6 +49,7 @@ public class JwtFilter implements Filter {
         try {
             // JWT 유효성 검사와 claims 추출
             Claims claims = jwtUtil.extractClaims(jwt);
+
             if (claims == null) {
                 httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "잘못된 JWT 토큰입니다.");
                 return;
@@ -65,6 +66,7 @@ public class JwtFilter implements Filter {
                     httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "관리자 권한이 없습니다.");
                     return;
                 }
+
                 chain.doFilter(request, response);
                 return;
             }

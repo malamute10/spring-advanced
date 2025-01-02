@@ -2,6 +2,7 @@ package org.example.expert.domain.manager.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
@@ -61,13 +62,16 @@ public class ManagerService {
         List<Manager> managerList = managerRepository.findAllByTodoId(todo.getId());
 
         List<ManagerResponse> dtoList = new ArrayList<>();
+
         for (Manager manager : managerList) {
             User user = manager.getUser();
+
             dtoList.add(new ManagerResponse(
                     manager.getId(),
                     new UserResponse(user.getId(), user.getEmail())
             ));
         }
+
         return dtoList;
     }
 

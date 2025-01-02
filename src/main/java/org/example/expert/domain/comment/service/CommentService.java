@@ -2,6 +2,7 @@ package org.example.expert.domain.comment.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.comment.dto.request.CommentSaveRequest;
 import org.example.expert.domain.comment.dto.response.CommentResponse;
@@ -50,15 +51,19 @@ public class CommentService {
         List<Comment> commentList = commentRepository.findAllByTodoId(todoId);
 
         List<CommentResponse> dtoList = new ArrayList<>();
+
         for (Comment comment : commentList) {
             User user = comment.getUser();
+
             CommentResponse dto = new CommentResponse(
                     comment.getId(),
                     comment.getContents(),
                     new UserResponse(user.getId(), user.getEmail())
             );
+
             dtoList.add(dto);
         }
+
         return dtoList;
     }
 }

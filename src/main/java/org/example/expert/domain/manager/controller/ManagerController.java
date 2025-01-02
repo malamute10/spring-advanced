@@ -44,6 +44,7 @@ public class ManagerController {
     ) {
         Claims claims = jwtUtil.extractClaims(bearerToken.substring(7));
         long userId = Long.parseLong(claims.getSubject());
+
         managerService.deleteManager(userId, todoId, managerId);
     }
 }

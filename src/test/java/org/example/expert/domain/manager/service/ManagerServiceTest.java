@@ -72,7 +72,7 @@ class ManagerServiceTest {
         assertEquals("담당자를 등록하려고 하는 유저가 일정을 만든 유저가 유효하지 않습니다.", exception.getMessage());
     }
 
-    @Test // 테스트코드 샘플
+    @Test
     public void manager_목록_조회에_성공한다() {
         // given
         long todoId = 1L;
@@ -95,20 +95,20 @@ class ManagerServiceTest {
         assertEquals(mockManager.getUser().getEmail(), managerResponses.get(0).getUser().getEmail());
     }
 
-    @Test // 테스트코드 샘플
+    @Test
     void todo가_정상적으로_등록된다() {
         // given
         AuthUser authUser = new AuthUser(1L, "a@a.com", UserRole.USER);
-        User user = User.fromAuthUser(authUser);  // 일정을 만든 유저
+        User user = User.fromAuthUser(authUser);
 
         long todoId = 1L;
         Todo todo = new Todo("Test Title", "Test Contents", "Sunny", user);
 
         long managerUserId = 2L;
-        User managerUser = new User("b@b.com", "password", UserRole.USER);  // 매니저로 등록할 유저
+        User managerUser = new User("b@b.com", "password", UserRole.USER);
         ReflectionTestUtils.setField(managerUser, "id", managerUserId);
 
-        ManagerSaveRequest managerSaveRequest = new ManagerSaveRequest(managerUserId); // request dto 생성
+        ManagerSaveRequest managerSaveRequest = new ManagerSaveRequest(managerUserId);
 
         given(todoRepository.findById(todoId)).willReturn(Optional.of(todo));
         given(userRepository.findById(managerUserId)).willReturn(Optional.of(managerUser));

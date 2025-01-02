@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ManagerSaveRequest {
 
-    @NotNull
-    private Long managerUserId;
+  @NotNull
+  private Long managerUserId;
 }

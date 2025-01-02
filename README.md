@@ -84,3 +84,71 @@
     - **`@EntityGraph`**
         - 선언적으로 간단하게 N+1 문제를 해결할 수 있음.
         - 간단한 연관 관계에서 유리.
+
+-  ## Lv 5. 테스트코드 & API 로깅
+
+### **1. 테스트 연습 1 (예상대로 성공하는지에 대한 케이스입니다.)**
+
+- 테스트 패키지 `package org.example.expert.config;` 의 `PassEncoderTest` 클래스에 있는 `matches_메서드가_정상적으로_동작한다()` 테스트가 의도대로 성공할 수
+  있게
+  수정해 주세요.
+
+### **2. 테스트 연습 2 (예상대로 예외처리 하는지에 대한 케이스입니다.)**
+
+- 1번 케이스
+    - 테스트 패키지 `package org.example.expert.domain.manager.service;` 의 `ManagerServiceTest` 의 클래스에 있는
+      `manager_목록_조회_시_Todo가_없다면_NPE_에러를_던진다()` 테스트가 성공하고 컨텍스트와 일치하도록 **테스트 코드**와 **테스트 코드 메서드 명**을 수정해 주세요.
+
+- 2번 케이스
+    - 테스트 패키지 `org.example.expert.domain.comment.service;` 의 `CommentServiceTest` 의 클래스에 있는
+      `comment_등록_중_할일을_찾지_못해_에러가_발생한다()` 테스트가 성공할 수 있도록 **테스트 코드**를 수정해 주세요.
+
+- 3번 케이스
+    - 테스트 패키지 `org.example.expert.domain.manager.service`의 `ManagerServiceTest` 클래스에 있는
+      `todo의_user가_null인_경우_예외가_발생한다()`
+      테스트가 성공할 수 있도록 **서비스 로직**을 수정해 주세요.
+
+### **3. Interceptor와 AOP를 활용한 API 로깅**
+
+- **키워드 : Interceptor 또는 AOP를 활용합니다.**
+- 어드민 사용자만 접근할 수 있는 특정 API에는 접근할 때마다 접근 로그를 기록해야 합니다.
+
+**요구사항:**
+
+1. 어드민 사용자만 접근할 수 있는 컨트롤러 메서드는 다음 두 가지예요.
+    - `org.example.expert.domain.comment.controller.CommentAdminController` 클래스의 `deleteComment()`
+    - `org.example.expert.domain.user.controller.UserAdminController` 클래스의 `changeUserRole()`
+
+**로깅 구현 방법:**
+
+1. **Interceptor**를 사용하여 구현하기
+    - 요청 정보(`HttpServletRequest`)를 사전 처리합니다.
+    - 어드민 권한 여부를 확인하여 인증되지 않은 사용자의 접근을 차단합니다.
+    - 인증 성공 시, 요청 시각과 URL을 로깅하도록 구현하세요.
+2. **AOP**를 사용하여 구현하기
+    - 어드민 API 메서드 실행 전후에 요청/응답 데이터를 로깅합니다.
+    - 로깅 내용에는 다음이 포함되어야 합니다:
+        - 요청한 사용자의 ID
+        - API 요청 시각
+        - API 요청 URL
+        - 요청 본문(`RequestBody`)
+        - 응답 본문(`ResponseBody`)
+3. **세부 구현 가이드**
+    - **Interceptor**:
+        - Spring의 `HandlerInterceptorAdapter`를 상속받아 구현합니다.
+        - `preHandle()`에서 어드민 인증 여부를 확인합니다.
+        - 인증되지 않은 경우 예외를 발생시킵니다.
+    - **AOP**:
+        - `@Around` 어노테이션을 사용하여 어드민 API 메서드 실행 전후에 요청/응답 데이터를 로깅합니다.
+        - 요청 본문과 응답 본문은 JSON 형식으로 기록하세요.
+    - 로깅은 `Logger` 클래스를 활용하여 기록합니다.
+
+**힌트:**
+
+1. Interceptor:
+    - 사용자의 인증 정보는 `SecurityContextHolder` 또는 `HttpServletRequest`에서 가져올 수 있습니다.
+    - `preHandle()`에서 URL, 헤더 등의 정보를 가져옵니다.
+2. AOP:
+    - 요청 본문은 `@RequestBody`로 전달된 객체를, 응답 본문은 반환된 객체를 확인합니다.
+    - 요청과 응답 데이터를 읽기 위해 `ObjectMapper`를 활용하세요.
+3. 요청 본문과 응답 본문을 로깅하기 위해 ContentCachingRequestWrapper, ContentCachingResponseWrapper활용할 수 있습니다.

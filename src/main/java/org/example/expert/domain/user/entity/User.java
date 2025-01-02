@@ -34,11 +34,11 @@ public class User extends Timestamped {
         this.userRole = userRole;
     }
 
-    public static User createUser(String email, String encodedPassword, String role) {
+    public static User createUser(String email, String encodedPassword, UserRole role) {
         return new User(
                 email,
                 encodedPassword,
-                UserRole.of(role)
+                role
         );
     }
 

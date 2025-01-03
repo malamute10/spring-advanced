@@ -19,4 +19,6 @@ public class UserAdminController {
       @RequestBody UserRoleChangeRequest userRoleChangeRequest) {
     userAdminService.changeUserRole(userId, userRoleChangeRequest);
   }
+
+
 }

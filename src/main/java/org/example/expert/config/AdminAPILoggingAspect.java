@@ -22,8 +22,8 @@ public class AdminAPILoggingAspect {
 
     private final ObjectMapper objectMapper;
 
-    public AdminAPILoggingAspect(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public AdminAPILoggingAspect(ObjectMapper objectMappers) {
+        this.objectMapper = objectMappers;
     }
 
     @Around("execution(* org.example.expert.domain.comment.controller.CommentAdminController.*(..)) || " +
